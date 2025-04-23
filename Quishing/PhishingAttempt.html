@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clemson Login Service</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #404040;
+    }
+
+    .header {
+      background-color: #F66733;
+      height: 27vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header img {
+      height: 90px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    .login-box {
+      color: white;
+      width: 360px;
+      margin-top: 10px;
+    }
+
+    .login-box label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      box-sizing: border-box;
+      background-color: #e0e0e0;
+      color: #000;
+      margin-bottom: 12px;
+    }
+
+    .login-box input[type="text"]:focus,
+    .login-box input[type="password"]:focus {
+      outline: none;
+      background-color: white;
+      border: 2px solid #F66733;
+    }
+
+    .small-links {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .small-links a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .login-box button {
+      background-color: #F66733;
+      border: none;
+      padding: 6px 24px;
+      font-size: 32px;
+      font-weight: normal;
+      color: white;
+      cursor: pointer;
+      text-align: left;
+      width: 120px;
+      height: auto;
+      line-height: 1;
+      border-radius: 0;
+    }
+
+    .login-box button:hover {
+      background-color: #e65c1e;
+    }
+
+    .help-text {
+      text-align: left;
+      font-size: 18px;
+      color: white;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .help-text a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .loginCounter {
+      font-size: 12px;
+      margin-top: 10px;
+      color: white;
+    }
+
+    .loginCounter a {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 14px;
+      color: #ddd;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <img src="ClemsonLogo.png" alt="Clemson University">
+  </div>
+
+  <div class="container" id="loginPage">
+    <div class="login-box">
+      <label for="username">Username</label>
+      <input type="text" id="username">
+
+      <label for="password">Password</label>
+      <input type="password" id="password">
+
+      <div class="small-links">
+        <a href="#">Forgot password?</a>
+        <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
+      </div>
+
+      <button onclick="handleLogin()">Login</button>
+
+      <div class="help-text">
+        Need help? Visit the <a href="https://ccit.clemson.edu" target="_blank">CCIT Support Center</a>,<br>
+        email <a href="mailto:ITHELP@clemson.edu">ITHELP@clemson.edu</a> or call <a href="tel:8646563494">(864) 656-3494</a>.<br>
+        <br>
+        <a href="#">Password Help</a>
+      </div>
+
+      <div class="loginCounter" id="loginCounter"></div>
+      <div class="loginCounter">
+        <a href="PhishingData.html">View Quish Statistics</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="prankPage" style="display:none">
+    <div class="login-box">
+      <h2>You were quished 😈</h2>
+      <p>Your username has been logged.</p>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    let count = parseInt(localStorage.getItem("quishCount") || "0");
+    document.getElementById("loginCounter").textContent = `${count} people quished so far.`;
+
+    function handleLogin() {
+      const username = document.getElementById("username").value.trim();
+      if (username) {
+        const usernames = JSON.parse(localStorage.getItem("quishedUsers") || "[]");
+        usernames.push(username);
+
+        count++;
+        localStorage.setItem("quishCount", count);
+        localStorage.setItem("quishedUsers", JSON.stringify(usernames));
+
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("prankPage").style.display = "flex";
+      } else {
+        alert("Please enter your username.");
+      }
+    }
+  </script>
+</body>
+</html>
