@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quish Statistics</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      color: #F66733;
+    }
+    button {
+      background-color: #F66733;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e65c1e;
+    }
+    pre {
+      background-color: #333;
+      padding: 10px;
+      margin-top: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    a {
+      color: #F66733;
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quish Statistics</h1>
+  <p id="counter"></p>
+  <button onclick="resetQuishData()">Reset Quish Data</button>
+  <h3>Usernames:</h3>
+  <pre id="userList"></pre>
+  <a href="index.html">← Back to Login Page</a>
+
+  <script>
+    const userList = document.getElementById("userList");
+    const counter = document.getElementById("counter");
+
+    const usernames = JSON.parse(localStorage.getItem("quishedUsers") || "[]");
+    const count = parseInt(localStorage.getItem("quishCount") || "0");
+
+    counter.textContent = `${count} people quished so far.`;
+
+    userList.textContent = usernames.length ? usernames.join("\n") : "No usernames logged yet.";
+
+    function resetQuishData() {
+      if (confirm("Are you sure you want to reset all quish data?")) {
+        localStorage.removeItem("quishedUsers");
+        localStorage.removeItem("quishCount");
+        userList.textContent = "No usernames logged yet.";
+        counter.textContent = "0 people quished so far.";
+      }
+    }
+  </script>
+</body>
+</html>
